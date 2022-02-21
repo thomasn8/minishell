@@ -6,7 +6,7 @@
 /*   By: tnanchen <thomasnanchen@hotmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/21 17:54:46 by tnanchen          #+#    #+#             */
-/*   Updated: 2022/02/21 17:54:47 by tnanchen         ###   ########.fr       */
+/*   Updated: 2022/02/21 18:09:33 by tnanchen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,6 @@
 /* ********************* */
 /*         MACROS        */
 /* ********************* */
-
-/* debug */
-# define TEST printf("%sTEST%s\n", RED, WHI)
 
 /* terminal colors */
 # define RED "\033[0;31m"
@@ -215,12 +212,9 @@ int			env_builtin(t_cmd *cmd);
 
 /*** EXECUTION ***/
 void		execution(t_cmd *current, char **env, int n, int *status);
-void		redirections(t_cmd *cmd, int *cmd_pipe);
 void		input_redirections(t_cmd *cmd);
 void		simple_cmd(t_cmd *cmd, char **env);
 int			output_redirections(t_cmd *cmd, int fd_read);
 int			command_not_found(t_cmd *cmd);
-void		cat_cmds(t_cmd *cmd);
-int			cat_check(t_cmd *cmd);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: tnanchen <thomasnanchen@hotmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/21 17:53:01 by tnanchen          #+#    #+#             */
-/*   Updated: 2022/02/21 17:53:02 by tnanchen         ###   ########.fr       */
+/*   Updated: 2022/02/21 18:03:10 by tnanchen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,4 +51,20 @@ void	builtins(t_cmd *current, int fd)
 	else if (ft_strncmp(current->name, "env\0", 4) == 0)
 		env_builtin(current);
 	close(fd);
+}
+
+int	first_nonempty_arg(char **args)
+{
+	int	i;
+
+	i = 1;
+	if (args)
+	{
+		while (args[i] && !(args[i][0]))
+			i++;
+		if (!args[i])
+			return (-1);
+		return (i);
+	}
+	return (-1);
 }

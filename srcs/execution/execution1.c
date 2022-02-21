@@ -6,7 +6,7 @@
 /*   By: tnanchen <thomasnanchen@hotmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/21 17:54:23 by tnanchen          #+#    #+#             */
-/*   Updated: 2022/02/21 17:54:24 by tnanchen         ###   ########.fr       */
+/*   Updated: 2022/02/21 18:08:29 by tnanchen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ static void	child_exec(t_cmd *cmd, char **env, int n, int *cmd_pipe)
 	}
 }
 
-void	loop_exec(t_cmd *cmd, char **env, int n, int *status, int stdout_fd)
+static void	main_exec(t_cmd *cmd, char **env, int n, int *status, int stdout_fd)
 {
 	int		cmd_pipe[2];
 
@@ -93,7 +93,7 @@ void	execution(t_cmd *current, char **env, int n, int *status)
 	stdout_fd = dup(STDOUT_FILENO);
 	while (n--)
 	{
-		loop_exec(current, env, n, status, stdout_fd);
+		main_exec(current, env, n, status, stdout_fd);
 		current = current->next;
 	}
 	dup2(stdin_fd, STDIN_FILENO);

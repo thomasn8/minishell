@@ -16,7 +16,6 @@ SRCS		= 	srcs/main.c 					\
 				srcs/parse/print_lists.c		\
 				srcs/parse/history.c			\
 				srcs/builtins/builtins.c		\
-				srcs/builtins/builtins_utils.c	\
 				srcs/builtins/pwd.c				\
 				srcs/builtins/cd.c				\
 				srcs/builtins/cd_utils.c		\
