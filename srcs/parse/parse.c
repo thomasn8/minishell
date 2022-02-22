@@ -6,7 +6,7 @@
 /*   By: tnanchen <thomasnanchen@hotmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/21 17:56:10 by tnanchen          #+#    #+#             */
-/*   Updated: 2022/02/21 17:56:11 by tnanchen         ###   ########.fr       */
+/*   Updated: 2022/02/22 03:26:44 by tnanchen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,16 +50,6 @@ static int	parse_components(char	*str, t_cmd *cmd)
 	return (0);
 }
 
-static char	*remove_cmd_newline(char *cmd)
-{
-	char	*tmp;
-
-	tmp = cmd;
-	cmd = ft_substr(cmd, 0, ft_strlen(cmd) - 1);
-	free(tmp);
-	return (cmd);
-}
-
 t_cmd	*parsing(char *cmd, int *n, int *status)
 {
 	char	**cmd_split;
@@ -68,7 +58,6 @@ t_cmd	*parsing(char *cmd, int *n, int *status)
 	t_cmd	*current;
 	int		i;
 
-	cmd = remove_cmd_newline(cmd);
 	cmd_split = ft_split_quotes(cmd, '|');
 	cmd_count = parse_syntax(cmd, cmd_split);
 	if (cmd_count < 1)
@@ -82,8 +71,7 @@ t_cmd	*parsing(char *cmd, int *n, int *status)
 		current = current->next;
 	}
 	expansion(first_cmd, status);
-	history(cmd);
-	free(cmd);
+	add_history(cmd);
 	ft_free_arr(cmd_split);
 	*n = i;
 	return (first_cmd);

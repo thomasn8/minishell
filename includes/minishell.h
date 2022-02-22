@@ -6,7 +6,7 @@
 /*   By: tnanchen <thomasnanchen@hotmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/21 17:54:46 by tnanchen          #+#    #+#             */
-/*   Updated: 2022/02/21 18:09:33 by tnanchen         ###   ########.fr       */
+/*   Updated: 2022/02/22 02:58:11 by tnanchen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@
 # include <fcntl.h>
 # include <sys/types.h>
 # include <sys/wait.h>
+# include <readline/history.h>
 
 /* ********************* */
 /*         MACROS        */
@@ -58,9 +59,6 @@
 /* config files */
 // env
 # define ENVS_FILE ".minishell_env"
-
-// history
-# define HIST_FILE ".minishell_history"
 
 /* execution */
 // last cmd nbr
@@ -171,7 +169,6 @@ void		parse_args(char *str, int *i, t_args *tmp2, t_cmd *cmd);
 void		split_args_list(t_args *tmp2, t_cmd *cmd);
 void		expansion(t_cmd *first_cmd, int *status);
 char		*expansion_component(char *compo, int *status);
-int			history(char *cmd);
 int			notblank_quotes(int c);
 int			quotes(char a, char *quote);
 void		remove_first(char **tab);

@@ -6,7 +6,7 @@
 /*   By: tnanchen <thomasnanchen@hotmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/21 17:57:02 by tnanchen          #+#    #+#             */
-/*   Updated: 2022/02/21 17:57:03 by tnanchen         ###   ########.fr       */
+/*   Updated: 2022/02/22 02:50:44 by tnanchen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ void	ctrlc_signal(int sig)
 
 	if (g_child == 0)
 		exit(sig);
-	ft_putstr_fd("\b\b  \b\b", 1);
 	write(1, "\n", 1);
 	if (g_child > 0)
 	{

@@ -6,7 +6,7 @@
 /*   By: tnanchen <thomasnanchen@hotmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/21 17:56:38 by tnanchen          #+#    #+#             */
-/*   Updated: 2022/02/21 17:56:39 by tnanchen         ###   ########.fr       */
+/*   Updated: 2022/02/22 02:56:43 by tnanchen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,26 +107,19 @@ static void	write_envs(char **env, int fd)
 int	config(int ac, char **av, char **env, int *status)
 {
 	char	*dir_env;
-	char	*dir_hist;
 	int		error;
 	int		fd_env;
-	int		fd_hist;
 
 	(void) ac;
 	(void) av;
 	error = 0;
 	status = 0;
 	dir_env = ft_strjoin_3(getenv("HOME"), "/", ENVS_FILE);
-	dir_hist = ft_strjoin_3(getenv("HOME"), "/", HIST_FILE);
 	if (check_config_file(dir_env, &fd_env, 1, ".minishell_env"))
-		error -= 1;
+		error = -1;
 	else
 		write_envs(env, fd_env);
-	if (check_config_file(dir_hist, &fd_hist, 2, ".minishell_history"))
-		error -= 2;
 	close(fd_env);
-	close(fd_hist);
 	free(dir_env);
-	free(dir_hist);
 	return (error);
 }

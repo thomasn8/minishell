@@ -6,24 +6,21 @@
 /*   By: tnanchen <thomasnanchen@hotmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/21 17:56:56 by tnanchen          #+#    #+#             */
-/*   Updated: 2022/02/21 17:56:57 by tnanchen         ###   ########.fr       */
+/*   Updated: 2022/02/22 03:23:55 by tnanchen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-static char	*print_user(void)
+static char	*get_user(void)
 {
 	char	*user;
 
 	user = ft_strdup(getenv("USER"));
-	if (!user)
-		exit(BUILTIN_FAILURE);
-	ft_putstr_fd(user, 1);
 	return (user);
 }
 
-static char	*print_relative_dir(void)
+static char	*get_relative_dir(void)
 {
 	char	*absolute_dir;
 	char	*home;
@@ -31,49 +28,65 @@ static char	*print_relative_dir(void)
 	char	*custom;
 
 	absolute_dir = getcwd(NULL, 0);
-	if (!absolute_dir)
-		exit(BUILTIN_FAILURE);
 	home = getenv("HOME");
-	if (!home)
-		exit(BUILTIN_FAILURE);
 	len = ft_strlen(home);
 	custom = ft_strnstr(absolute_dir, home, len);
 	if (custom)
 	{
-		write(1, "~", 1);
-		if (absolute_dir != home)
-			ft_putstr_fd(&custom[len], 1);
+		if (absolute_dir == home)
+			return (ft_strdup("~"));
+		else
+			return (ft_strjoin("~", &custom[len]));
 	}
 	else
-		ft_putstr_fd(absolute_dir, 1);
-	return (absolute_dir);
+		return (absolute_dir);
 }
 
 char	*prompt(void)
 {
-	char	*user;
-	char	*absolute_dir;
+	char		*user;
+	char		*dir;
+	char		*tmp;
+	static char *cmd = NULL;
 
-	absolute_dir = NULL;
-	user = print_user();
-	write(1, ":", 1);
-	absolute_dir = print_relative_dir();
-	ft_putstr_fd(" $ ", 1);
+	user = get_user();
+	tmp = ft_strjoin(user, ":");
 	free(user);
-	free(absolute_dir);
-	return (get_cmd_line(STDIN_FILENO));
+	user = tmp;
+	dir = get_relative_dir();
+	tmp = ft_strjoin(dir, " $ ");
+	free(dir);
+	dir = tmp;
+	tmp = ft_strjoin(user, dir);
+	free(user);
+	free(dir);
+	if (cmd)
+    {
+    	free(cmd);
+    	cmd = NULL;
+    }
+	cmd = readline(tmp);
+	free(tmp);
+	return (cmd);
 }
 
 void	print_prompt(void)
 {
-	char	*user;
-	char	*absolute_dir;
+	char		*user;
+	char		*dir;
+	char		*tmp;
 
-	absolute_dir = NULL;
-	user = print_user();
-	write(1, ":", 1);
-	absolute_dir = print_relative_dir();
-	ft_putstr_fd(" $ ", 1);
+	user = get_user();
+	tmp = ft_strjoin(user, ":");
 	free(user);
-	free(absolute_dir);
+	user = tmp;
+	dir = get_relative_dir();
+	tmp = ft_strjoin(dir, " $ ");
+	free(dir);
+	dir = tmp;
+	tmp = ft_strjoin(user, dir);
+	free(user);
+	free(dir);
+	ft_putstr_fd(tmp, 1);
+	free(tmp);
 }

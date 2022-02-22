@@ -1,6 +1,5 @@
 SRCS		= 	srcs/main.c 					\
 				srcs/config.c					\
-				srcs/gnl_cmd.c					\
 				srcs/prompt.c					\
 				srcs/signals.c					\
 				srcs/free_datas.c				\
@@ -14,7 +13,6 @@ SRCS		= 	srcs/main.c 					\
 				srcs/parse/parse_expansion.c	\
 				srcs/parse/parse_expansion2.c	\
 				srcs/parse/print_lists.c		\
-				srcs/parse/history.c			\
 				srcs/builtins/builtins.c		\
 				srcs/builtins/pwd.c				\
 				srcs/builtins/cd.c				\
@@ -48,7 +46,7 @@ all:		${NAME}
 
 ${NAME}:	${OBJS}
 			make --silent -C ${LIBFT_DIR}/
-			$(CC) $(CFLAGS) -o $(NAME) ${OBJS} $(LIBFT)
+			$(CC) $(CFLAGS) -o $(NAME) ${OBJS} $(LIBFT) -lreadline
 
 clean:
 			${RM} ${OBJS}
