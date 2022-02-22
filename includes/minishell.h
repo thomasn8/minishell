@@ -6,7 +6,7 @@
 /*   By: tnanchen <thomasnanchen@hotmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/21 17:54:46 by tnanchen          #+#    #+#             */
-/*   Updated: 2022/02/22 02:58:11 by tnanchen         ###   ########.fr       */
+/*   Updated: 2022/02/22 13:38:38 by tnanchen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,9 @@
 # include <fcntl.h>
 # include <sys/types.h>
 # include <sys/wait.h>
+# include <termios.h>
 # include <readline/history.h>
+# include <readline/readline.h>
 
 /* ********************* */
 /*         MACROS        */
@@ -73,6 +75,12 @@ pid_t	g_child;
 /* ********************* */
 /*        STRUCTS        */
 /* ********************* */
+
+typedef struct s_t
+{
+	struct termios	termios_save;
+	struct termios	termios_new;
+}	t_t;
 
 // liste chainée dans les listes chainées (redirections)
 typedef struct s_ioredir
@@ -151,9 +159,10 @@ char		*prompt(void);
 void		print_prompt(void);
 
 // signals
+void		init_signals(t_t *term);
 void		ctrlc_signal(int sig);
 void		ctrlslash_signal(int sig);
-void		stop(int exit_code);
+void		stop(int exit_code, t_t *term);
 
 // free datas
 int			free_cmds(t_cmd *cmd);
@@ -184,7 +193,7 @@ void		builtins(t_cmd *current, int fd);
 int			first_nonempty_arg(char **args);
 
 // pwd
-int			pwd(t_cmd *cmd);
+int			pwd(void);
 
 // cd
 int			cd(t_cmd *cmd);

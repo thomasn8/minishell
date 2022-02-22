@@ -6,13 +6,13 @@
 /*   By: tnanchen <thomasnanchen@hotmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/21 17:54:23 by tnanchen          #+#    #+#             */
-/*   Updated: 2022/02/21 18:08:29 by tnanchen         ###   ########.fr       */
+/*   Updated: 2022/02/22 13:43:57 by tnanchen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void print_fildes(int *p)
+void	print_fildes(int *p)
 {
 	ft_putstr_fd(RED, 2);
 	ft_putstr_fd("read: ", 2);
@@ -59,13 +59,11 @@ static void	child_exec(t_cmd *cmd, char **env, int n, int *cmd_pipe)
 	}
 }
 
-static void	main_exec(t_cmd *cmd, char **env, int n, int *status, int stdout_fd)
+static void	main_exec(t_cmd *cmd, char **env, int n, int *status)
 {
 	int		cmd_pipe[2];
 
-	dup2(stdout_fd, STDOUT_FILENO);
 	pipe(cmd_pipe);
-	// print_fildes(cmd_pipe);
 	if (is_builtin(cmd))
 	{
 		if (n != LAST)
@@ -93,7 +91,8 @@ void	execution(t_cmd *current, char **env, int n, int *status)
 	stdout_fd = dup(STDOUT_FILENO);
 	while (n--)
 	{
-		main_exec(current, env, n, status, stdout_fd);
+		dup2(stdout_fd, STDOUT_FILENO);
+		main_exec(current, env, n, status);
 		current = current->next;
 	}
 	dup2(stdin_fd, STDIN_FILENO);

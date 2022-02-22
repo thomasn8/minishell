@@ -6,7 +6,7 @@
 /*   By: tnanchen <thomasnanchen@hotmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/21 17:54:32 by tnanchen          #+#    #+#             */
-/*   Updated: 2022/02/21 17:54:33 by tnanchen         ###   ########.fr       */
+/*   Updated: 2022/02/22 13:39:54 by tnanchen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ void	input_redirections(t_cmd *cmd)
 	while (current)
 	{
 		if (current->next == NULL)
-			break;
+			break ;
 		next = current->next;
 		current = next;
 	}

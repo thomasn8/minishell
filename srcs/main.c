@@ -6,7 +6,7 @@
 /*   By: tnanchen <thomasnanchen@hotmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/21 17:56:52 by tnanchen          #+#    #+#             */
-/*   Updated: 2022/02/21 17:56:53 by tnanchen         ###   ########.fr       */
+/*   Updated: 2022/02/22 13:41:29 by tnanchen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,15 @@
 
 int	main(int ac, char **av, char **env)
 {
+	int			status;
+	t_t			term;
+	int			n;
 	char		*cmd;
 	t_cmd		*first_cmd;
-	int			n;
-	int			status;
 
 	config(ac, av, env, &status);
 	g_child = NO_CHILD_P;
-	signal(SIGINT, ctrlc_signal);
-	signal(SIGQUIT, ctrlslash_signal);
+	init_signals(&term);
 	while (1)
 	{
 		n = 0;
@@ -37,5 +37,5 @@ int	main(int ac, char **av, char **env)
 			free_cmds(first_cmd);
 		}
 	}
-	stop(0);
+	stop(0, &term);
 }

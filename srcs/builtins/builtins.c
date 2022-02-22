@@ -6,7 +6,7 @@
 /*   By: tnanchen <thomasnanchen@hotmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/21 17:53:01 by tnanchen          #+#    #+#             */
-/*   Updated: 2022/02/21 18:03:10 by tnanchen         ###   ########.fr       */
+/*   Updated: 2022/02/22 13:38:46 by tnanchen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	builtins(t_cmd *current, int fd)
 	else if (ft_strncmp(current->name, "unset\0", 6) == 0)
 		unset(current);
 	else if (ft_strncmp(current->name, "pwd\0", 4) == 0)
-		pwd(current);
+		pwd();
 	else if (ft_strncmp(current->name, "echo\0", 5) == 0)
 		echo(current);
 	else if (ft_strncmp(current->name, "env\0", 4) == 0)

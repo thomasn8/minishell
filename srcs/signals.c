@@ -6,11 +6,33 @@
 /*   By: tnanchen <thomasnanchen@hotmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/21 17:57:02 by tnanchen          #+#    #+#             */
-/*   Updated: 2022/02/22 02:50:44 by tnanchen         ###   ########.fr       */
+/*   Updated: 2022/02/22 13:35:35 by tnanchen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+void	init_signals(t_t *term)
+{
+	int	ret;
+
+	ret = tcgetattr(STDIN_FILENO, &term->termios_save);
+	if (ret)
+	{
+		ft_putendl_fd(strerror(errno), 2);
+		exit(1);
+	}
+	term->termios_new = term->termios_save;
+	term->termios_new.c_lflag &= ~ECHOCTL;
+	ret = tcsetattr(STDIN_FILENO, 0, &term->termios_new);
+	if (ret)
+	{
+		ft_putendl_fd(strerror(errno), 2);
+		exit(1);
+	}
+	signal(SIGINT, ctrlc_signal);
+	signal(SIGQUIT, ctrlslash_signal);
+}
 
 void	ctrlc_signal(int sig)
 {
@@ -30,16 +52,19 @@ void	ctrlc_signal(int sig)
 		g_child = NO_CHILD_P;
 	}
 	else
-		print_prompt();
+	{
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
+	}
 }
 
 void	ctrlslash_signal(int sig)
 {
 	(void) sig;
-	ft_putstr_fd("\b\b  \b\b", 1);
 }
 
-void	stop(int exit_code)
+void	stop(int exit_code, t_t *term)
 {
 	int	success;
 
@@ -53,6 +78,8 @@ void	stop(int exit_code)
 			exit(KILL_ERROR);
 		}
 	}
+	rl_clear_history();
+	tcsetattr(STDIN_FILENO, 0, &term->termios_save);
 	ft_putstr_fd("logout\n", 1);
 	exit(exit_code);
 }

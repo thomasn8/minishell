@@ -31,13 +31,14 @@ SRCS		= 	srcs/main.c 					\
 
 OBJS		= ${SRCS:.c=.o}
 CC			= gcc
-CFLAGS		= -Wall -Wextra -Werror
+CFLAGS		= -Wall -Wextra -Werror -I/usr/local/opt/readline/include
 NAME		= minishell
 RM			= rm -f
 
 LIBFT_DIR	= libft
 LIBFT_A		= libft.a
 LIBFT		= -L./libft -lft
+READLINE	= -L/usr/local/opt/readline/lib
 
 all:		${NAME}
 
@@ -46,7 +47,7 @@ all:		${NAME}
 
 ${NAME}:	${OBJS}
 			make --silent -C ${LIBFT_DIR}/
-			$(CC) $(CFLAGS) -o $(NAME) ${OBJS} $(LIBFT) -lreadline
+			$(CC) $(CFLAGS) -o $(NAME) ${OBJS} $(LIBFT) -lreadline $(READLINE)
 
 clean:
 			${RM} ${OBJS}

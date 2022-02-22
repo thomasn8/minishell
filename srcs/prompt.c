@@ -6,7 +6,7 @@
 /*   By: tnanchen <thomasnanchen@hotmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/21 17:56:56 by tnanchen          #+#    #+#             */
-/*   Updated: 2022/02/22 03:23:55 by tnanchen         ###   ########.fr       */
+/*   Updated: 2022/02/22 13:37:05 by tnanchen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,15 +31,11 @@ static char	*get_relative_dir(void)
 	home = getenv("HOME");
 	len = ft_strlen(home);
 	custom = ft_strnstr(absolute_dir, home, len);
-	if (custom)
-	{
-		if (absolute_dir == home)
-			return (ft_strdup("~"));
-		else
-			return (ft_strjoin("~", &custom[len]));
-	}
-	else
+	if (!custom)
 		return (absolute_dir);
+	if (absolute_dir == home)
+		return (ft_strdup("~"));
+	return (ft_strjoin("~", &custom[len]));
 }
 
 char	*prompt(void)
@@ -47,7 +43,7 @@ char	*prompt(void)
 	char		*user;
 	char		*dir;
 	char		*tmp;
-	static char *cmd = NULL;
+	static char	*cmd = NULL;
 
 	user = get_user();
 	tmp = ft_strjoin(user, ":");
@@ -61,32 +57,11 @@ char	*prompt(void)
 	free(user);
 	free(dir);
 	if (cmd)
-    {
-    	free(cmd);
-    	cmd = NULL;
-    }
+	{
+		free(cmd);
+		cmd = NULL;
+	}
 	cmd = readline(tmp);
 	free(tmp);
 	return (cmd);
-}
-
-void	print_prompt(void)
-{
-	char		*user;
-	char		*dir;
-	char		*tmp;
-
-	user = get_user();
-	tmp = ft_strjoin(user, ":");
-	free(user);
-	user = tmp;
-	dir = get_relative_dir();
-	tmp = ft_strjoin(dir, " $ ");
-	free(dir);
-	dir = tmp;
-	tmp = ft_strjoin(user, dir);
-	free(user);
-	free(dir);
-	ft_putstr_fd(tmp, 1);
-	free(tmp);
 }

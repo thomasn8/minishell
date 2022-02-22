@@ -6,17 +6,16 @@
 /*   By: tnanchen <thomasnanchen@hotmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/21 17:53:49 by tnanchen          #+#    #+#             */
-/*   Updated: 2022/02/21 17:53:49 by tnanchen         ###   ########.fr       */
+/*   Updated: 2022/02/22 13:38:28 by tnanchen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	pwd(t_cmd *cmd)
+int	pwd(void)
 {
 	int		exit_code;
 	char	*dir;
-	(void) cmd;
 
 	exit_code = 0;
 	dir = getcwd(NULL, 0);
