@@ -6,7 +6,7 @@
 /*   By: tnanchen <thomasnanchen@hotmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/21 17:54:32 by tnanchen          #+#    #+#             */
-/*   Updated: 2022/02/22 13:39:54 by tnanchen         ###   ########.fr       */
+/*   Updated: 2022/02/22 15:08:21 by tnanchen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,12 +79,13 @@ static void	simple_r(t_ioredir *redir, int fd_write)
 }
 
 // bash prend en compte que 1 input redirection, la dernière
-void	input_redirections(t_cmd *cmd)
+void	input_redirections(t_cmd *cmd, int stdin_fd)
 {
 	int			input_pipe[2];
 	t_ioredir	*current;
 	t_ioredir	*next;
 
+	dup2(stdin_fd, STDIN_FILENO);
 	pipe(input_pipe);
 	current = cmd->first_in_redir;
 	while (current)

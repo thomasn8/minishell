@@ -6,7 +6,7 @@
 /*   By: tnanchen <thomasnanchen@hotmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/21 17:54:23 by tnanchen          #+#    #+#             */
-/*   Updated: 2022/02/22 13:43:57 by tnanchen         ###   ########.fr       */
+/*   Updated: 2022/02/22 15:04:34 by tnanchen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,13 +41,13 @@ static int	wait_child(int *status)
 	return (0);
 }
 
-static void	child_exec(t_cmd *cmd, char **env, int n, int *cmd_pipe)
+static void	child_exec(t_cmd *cmd, char **env, int n, int *cmd_pipe, int stdin_fd)
 {
 	g_child = fork();
 	if (g_child == 0)
 	{
 		if (cmd->first_in_redir != NULL)
-			input_redirections(cmd);
+			input_redirections(cmd, stdin_fd);
 		if (n != LAST || cmd->first_out_redir)
 			dup2(cmd_pipe[1], STDOUT_FILENO);
 		close(cmd_pipe[0]);
@@ -59,11 +59,12 @@ static void	child_exec(t_cmd *cmd, char **env, int n, int *cmd_pipe)
 	}
 }
 
-static void	main_exec(t_cmd *cmd, char **env, int n, int *status)
+static void	main_exec(t_cmd *cmd, char **env, int n, int *status, int stdin_fd)
 {
 	int		cmd_pipe[2];
 
 	pipe(cmd_pipe);
+	print_fildes(cmd_pipe);
 	if (is_builtin(cmd))
 	{
 		if (n != LAST)
@@ -72,7 +73,7 @@ static void	main_exec(t_cmd *cmd, char **env, int n, int *status)
 	}
 	else
 	{
-		child_exec(cmd, env, n, cmd_pipe);
+		child_exec(cmd, env, n, cmd_pipe, stdin_fd);
 		wait_child(status);
 	}
 	dup2(cmd_pipe[0], STDIN_FILENO);
@@ -92,7 +93,7 @@ void	execution(t_cmd *current, char **env, int n, int *status)
 	while (n--)
 	{
 		dup2(stdout_fd, STDOUT_FILENO);
-		main_exec(current, env, n, status);
+		main_exec(current, env, n, status, stdin_fd);
 		current = current->next;
 	}
 	dup2(stdin_fd, STDIN_FILENO);
