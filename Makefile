@@ -31,15 +31,14 @@ SRCS		= 	srcs/main.c 					\
 
 OBJS		= ${SRCS:.c=.o}
 CC			= gcc
-CFLAGS		= -Wall -Wextra -Werror -I./readline/include
+CFLAGS		= -Wall -Wextra -Werror -I/usr/local/opt/readline/include
 NAME		= minishell
 RM			= rm -f
 
 LIBFT_DIR	= libft
 LIBFT_A		= libft.a
 LIBFT		= -L./libft -lft
-
-READLINE	= -L./readline/lib
+READLINE	= -L/usr/local/opt/readline/lib
 
 all:		${NAME}
 
