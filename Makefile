@@ -28,13 +28,15 @@ SRCS		= 	srcs/main.c 					\
 				srcs/execution/redir_inputs.c	\
 				srcs/execution/redir_outputs.c	\
 
+# in order to use all readline functions, you may want to "brew install readline"
+# link the new CFLAGS path
+# link the readline path to your installed library in the READLINE variable
 
 OBJS		= ${SRCS:.c=.o}
 CC			= gcc
 CFLAGS		= -Wall -Wextra -Werror -I/usr/local/opt/readline/include
 NAME		= minishell
 RM			= rm -f
-
 LIBFT_DIR	= libft
 LIBFT_A		= libft.a
 LIBFT		= -L./libft -lft
@@ -64,8 +66,8 @@ run:
 
 .PHONY:		all clean fclean re run
 
-#-------HELP TO DEBUG---------#
 
-#-g -fsanitize=address ou -O0 à ajouter lors de la compliation pour le débegueur vscode.
-#leaks -atExit -- ./commande (mac) qui permet de checker si il y'a des leaks.
-#valgrind --leak-check=full --show-leak-kinds=all ./minishell
+###### Debuging
+# -g -fsanitize=address
+# valgrind --leak-check=full --show-leak-kinds=all ./minishell
+# -O0 pour le débegueur vscode.
